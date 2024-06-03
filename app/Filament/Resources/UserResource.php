@@ -39,9 +39,9 @@ class UserResource extends Resource
                 TextInput::make('password')
                     ->label('Password')
                     // ->required()
-                    ->visibleOn('create')
                     ->placeholder('Password')
                     ->password()
+                    ->nullable()
                     ->autocomplete('new-password'),
                 TextInput::make('username')
                     ->label('Username')
