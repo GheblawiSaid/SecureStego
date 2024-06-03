@@ -1,0 +1,37 @@
+.header {
+    background-color: #b0b0b0;
+    padding: 20px;
+    text-align: center;
+}
+.header h1 {
+    margin: 0;
+    font-size: 36px;
+    font-weight: bold;
+}
+.user-section {
+    background-color: #d3d3d3;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+.user-section label {
+    font-weight: bold;
+}
+.user-section input {
+    border-radius: 10px;
+    border: none;
+    padding: 5px 10px;
+    width: 100%;
+}
+.user-section .btn {
+    border-radius: 10px;
+    padding: 5px 20px;
+}
+.user-section .btn-delete {
+    background-color: #dc3545;
+    color: white;
+}
+.user-section .btn-save {
+    background-color: #28a745;
+    color: white;
+}
