@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head data-bs-theme="dark">
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -14,17 +14,16 @@
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
     <!-- CSS -->
-    <link href="{{ url('../css/stego.css') }}" rel="stylesheet">
+    <link href="{{ url('css/stego.css') }}" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
-    @vite(['resources/sass/app.scss', 'resources/js/scripts.js'])
 
 </head>
 
-<body data-bs-theme="dark">
+<body>
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
@@ -34,16 +33,7 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="form-check form-switch mx-4">
-                    <input
-                      class="form-check-input p-2"
-                      type="checkbox"
-                      role="switch"
-                      id="flexSwitchCheckChecked"
-                      checked
-                      onclick="myFunction()"
-                    />
-                </div>
+
                 <div class="collapse navbar-collapse" id="navbarSupportedContent" >
                     <ul class="navbar-nav me-auto" >
 
@@ -90,13 +80,7 @@
             @yield('content')
         </main>
     </div>
+    <script type="text/javascript" src="{{ asset('js/script.js') }}"></script>
 
-    <script>
-        function myFunction() {
-          var element = document.body;
-          element.dataset.bsTheme =
-            element.dataset.bsTheme == "light" ? "dark" : "light";
-        }
-    </script>
 </body>
 </html>

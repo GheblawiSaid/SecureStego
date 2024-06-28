@@ -3,6 +3,14 @@
 @section('content')
 <body>
 
+    <div class="card text-center mb-4">
+        <div class="card-body">
+            <h1 class="display-4 font-weight-bold">Secure Steganography Image Digital Watermarking for
+                Photographers And Content Creators By Using Subtype of
+                Spatial Domain Method</h1>
+        </div>
+    </div>
+
     <div class="card-header">
         @if (session('error'))
              <div class="alert alert-danger">
@@ -42,7 +50,7 @@
                 <p class="alert alert-info">
                     To watermark a message within an image, select the image you wish to use, input your text, and click the <strong>Encode</strong> button. <br/>
                     Save the final image, as it will contain your watermark. <br/>
-                    Keep in mind that the more text you want to hide, the larger the image needs to be. If the image you select is too small to contain your message, you will be notified.<br/><br/>
+                    <Strong>Note:  </Strong>Keep in mind that the more text you want to hide, the larger the image needs to be. If the image you select is too small to contain your message, you will be notified.<br/><br/>
                 </p>
                 <form class="form">
                     <div class="form-group">
@@ -65,7 +73,7 @@
                 </div>
                 <div class="images" style="display: none;">
                     <div class="original" style="display: none;">
-                        <h3>Original</h3>
+                        <h3>Original Photo Preview</h3>
                         <canvas></canvas>
                     </div>
                     <div class="nulled" style="display: none;">
@@ -73,7 +81,7 @@
                         <canvas></canvas>
                     </div>
                     <div class="message" style="display: none;">
-                        <h3>Message hidden in image (right click <span class="glyphicon glyphicon-arrow-right"></span> save as)</h3>
+                        <h3>Processed Image(right click <span class="glyphicon glyphicon-arrow-right"></span> save as)</h3>
                         <canvas></canvas>
                     </div>
                 </div>

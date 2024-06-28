@@ -4,6 +4,11 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+            <div class="card text-center mb-4">
+                <div class="card-body">
+                    <h1 class="display-4 font-weight-bold">SecureStego</h1>
+                </div>
+            </div>
             <div class="card">
                 <div class="card-header">{{ __('Register') }}</div>
 

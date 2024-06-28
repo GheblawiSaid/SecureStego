@@ -1,4 +1,3 @@
-
 $('button.encode, button.decode').click(function(event) {
     event.preventDefault();
   });

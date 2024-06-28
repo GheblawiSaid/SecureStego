@@ -35,3 +35,7 @@
     background-color: #28a745;
     color: white;
 }
+.form-group-center {
+    display: flex;
+    justify-content: center;
+}

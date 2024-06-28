@@ -49,9 +49,8 @@ class LoginController extends Controller
     public function login(Request $_request)
     {
         $input = $_request->all();
-        // dd($input);
         $this->validate($_request, [
-            'email' => 'required',
+            'email' => 'required|email',
             'password' => 'required',
         ]);
 
@@ -60,7 +59,7 @@ class LoginController extends Controller
                 return redirect()->route('home');
         } else return redirect('/admin/login');
         } else {
-            return redirect()->route('login')->with('error', 'Username And Password Are Wrong.');
+            return redirect()->route('login')->with('error', 'Email or Password is wrong');
         }
     }
 }
