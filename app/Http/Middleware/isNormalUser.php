@@ -19,7 +19,7 @@ class isNormalUser
             return $next($request);
         }
         else {
-            return redirect('/admin/login') ->with('error', 'You dont have  access.');
+            return redirect('/admin/login');
         }
     }
 }
