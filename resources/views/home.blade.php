@@ -56,7 +56,7 @@
                         <input class="form-control" type="file" name="baseFile" onchange="previewEncodeImage()">
                     </div>
                     <div class="form-group">
-                        <textarea class="form-control message" rows="3" placeholder="Enter your message here"></textarea>
+                        <textarea id="waterMarkMessage" class="form-control message" rows="3" placeholder="Enter your message here"></textarea>
                     </div>
                     <div class="form-group">
                         <button class="encode btn btn-default" type="button" onclick="encodeMessage()" style="float: left;">Encode</button>
@@ -66,7 +66,7 @@
                 <div class="error" style="display: none;"></div>
                 <div class="binary text-with-black-background" style="display: none;">
                     <h3>Binary representation of your Watermark</h3>
-                    <textarea class="form-control message" style="word-wrap:break-word;"></textarea>
+                    <textarea class="form-control message" style="word-wrap: break-word;" aria-label="Binary representation of your Watermark"></textarea>
                 </div>
                 <div class="images text-with-black-background" style="display: none;">
                     <div class="original" style="display: none;">
@@ -103,7 +103,6 @@
     <script type="text/javascript" src="{{ asset('js/script.js') }}"></script>
 </body>
 @endsection
-
 
 
 

@@ -53,8 +53,7 @@ function previewImage(file, canvasSelector, callback) {
     };
 }
 
-// Assuming you are using CryptoJS for AES encryption
-// Make sure CryptoJS is included in your project
+
 
 function encodeMessage() {
     showStatusMessage("Starting encoding process...");
@@ -63,7 +62,7 @@ function encodeMessage() {
         $(".error").hide();
         $(".binary").hide();
 
-        var text = $("textarea.message").val();
+        var text = $("textarea#waterMarkMessage").val();
         var $originalCanvas = $('.original canvas');
         var $nulledCanvas = $('.nulled canvas');
         var $messageCanvas = $('.message canvas');
@@ -135,6 +134,8 @@ function encodeMessage() {
         }, 2000); // Adjust delay as needed
     }, 500);
 }
+
+
 
 
 

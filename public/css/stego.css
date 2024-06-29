@@ -69,3 +69,8 @@ canvas {
     color: white;
     padding: 5px 10px;
 }
+
+.save-button {
+    float: left;
+    margin-right: 10px; /* Adjust margin as needed */
+}
