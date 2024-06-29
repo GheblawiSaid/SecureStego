@@ -1,166 +1,194 @@
+
+
 $('button.encode, button.decode').click(function(event) {
     event.preventDefault();
-  });
+});
 
-  function previewDecodeImage() {
+function showStatusMessage(message) {
+    $(".status-message").text(message);
+    $(".status-card").fadeIn();
+}
+
+function hideStatusMessage() {
+    $(".status-card").fadeOut();
+}
+
+function previewDecodeImage() {
     var file = document.querySelector('input[name=decodeFile]').files[0];
-
     previewImage(file, ".decode canvas", function() {
-      $(".decode").fadeIn();
+        $(".decode").fadeIn();
     });
-  }
+}
 
-  function previewEncodeImage() {
+function previewEncodeImage() {
     var file = document.querySelector("input[name=baseFile]").files[0];
-
     $(".images .nulled").hide();
     $(".images .message").hide();
-
     previewImage(file, ".original canvas", function() {
-      $(".images .original").fadeIn();
-      $(".images").fadeIn();
+        $(".images .original").fadeIn();
+        $(".images").fadeIn();
     });
-  }
+}
 
-  function previewImage(file, canvasSelector, callback) {
+function previewImage(file, canvasSelector, callback) {
     var reader = new FileReader();
-    var image = new Image;
+    var image = new Image();
     var $canvas = $(canvasSelector);
     var context = $canvas[0].getContext('2d');
 
     if (file) {
-      reader.readAsDataURL(file);
+        reader.readAsDataURL(file);
     }
 
-    reader.onloadend = function () {
-      image.src = URL.createObjectURL(file);
+    reader.onloadend = function() {
+        image.src = URL.createObjectURL(file);
+        image.onload = function() {
+            $canvas.prop({
+                'width': image.width,
+                'height': image.height
+            });
+            context.drawImage(image, 0, 0);
+            callback();
+        };
+    };
+}
 
-      image.onload = function() {
-        $canvas.prop({
-          'width': image.width,
-          'height': image.height
-        });
+// Assuming you are using CryptoJS for AES encryption
+// Make sure CryptoJS is included in your project
 
-        context.drawImage(image, 0, 0);
+function encodeMessage() {
+    showStatusMessage("Starting encoding process...");
 
-        callback();
-      }
-    }
-  }
+    setTimeout(() => {
+        $(".error").hide();
+        $(".binary").hide();
 
-  function encodeMessage() {
-    $(".error").hide();
-    $(".binary").hide();
+        var text = $("textarea.message").val();
+        var $originalCanvas = $('.original canvas');
+        var $nulledCanvas = $('.nulled canvas');
+        var $messageCanvas = $('.message canvas');
+        var originalContext = $originalCanvas[0].getContext("2d");
+        var nulledContext = $nulledCanvas[0].getContext("2d");
+        var messageContext = $messageCanvas[0].getContext("2d");
+        var width = $originalCanvas[0].width;
+        var height = $originalCanvas[0].height;
 
-    var text = $("textarea.message").val();
-
-    var $originalCanvas = $('.original canvas');
-    var $nulledCanvas = $('.nulled canvas');
-    var $messageCanvas = $('.message canvas');
-
-    var originalContext = $originalCanvas[0].getContext("2d");
-    var nulledContext = $nulledCanvas[0].getContext("2d");
-    var messageContext = $messageCanvas[0].getContext("2d");
-
-    var width = $originalCanvas[0].width;
-    var height = $originalCanvas[0].height;
-
-    // Check if the image is big enough to hide the message
-    if ((text.length * 8) > (width * height * 3)) {
-      $(".error")
-        .text("Text too long for chosen image....")
-        .fadeIn();
-
-      return;
-    }
-
-    $nulledCanvas.prop({
-      'width': width,
-      'height': height
-    });
-
-    $messageCanvas.prop({
-      'width': width,
-      'height': height
-    });
-
-    // Normalize the original image and draw it
-    var original = originalContext.getImageData(0, 0, width, height);
-    var pixel = original.data;
-    for (var i = 0, n = pixel.length; i < n; i += 4) {
-      for (var offset =0; offset < 3; offset ++) {
-        if(pixel[i + offset] %2 != 0) {
-          pixel[i + offset]--;
-        }
-      }
-    }
-    nulledContext.putImageData(original, 0, 0);
-
-    // Convert the message to a binary string
-    var binaryMessage = "";
-    for (i = 0; i < text.length; i++) {
-      var binaryChar = text[i].charCodeAt(0).toString(2);
-
-      // Pad with 0 until the binaryChar has a lenght of 8 (1 Byte)
-      while(binaryChar.length < 8) {
-        binaryChar = "0" + binaryChar;
-      }
-
-      binaryMessage += binaryChar;
-    }
-    $('.binary textarea').text(binaryMessage);
-
-    // Apply the binary string to the image and draw it
-    var message = nulledContext.getImageData(0, 0, width, height);
-    pixel = message.data;
-    counter = 0;
-    for (var i = 0, n = pixel.length; i < n; i += 4) {
-      for (var offset =0; offset < 3; offset ++) {
-        if (counter < binaryMessage.length) {
-          pixel[i + offset] += parseInt(binaryMessage[counter]);
-          counter++;
-        }
-        else {
-          break;
-        }
-      }
-    }
-    messageContext.putImageData(message, 0, 0);
-
-    $(".binary").fadeIn();
-    $(".images .nulled").fadeIn();
-    $(".images .message").fadeIn();
-  };
-
-  function decodeMessage() {
-    var $originalCanvas = $('.decode canvas');
-    var originalContext = $originalCanvas[0].getContext("2d");
-
-    var original = originalContext.getImageData(0, 0, $originalCanvas.width(), $originalCanvas.height());
-    var binaryMessage = "";
-    var pixel = original.data;
-    for (var i = 0, n = pixel.length; i < n; i += 4) {
-      for (var offset =0; offset < 3; offset ++) {
-        var value = 0;
-        if(pixel[i + offset] %2 != 0) {
-          value = 1;
+        if ((text.length * 8) > (width * height * 3)) {
+            $(".error").text("Text too long for chosen image....").fadeIn();
+            hideStatusMessage();
+            return;
         }
 
-        binaryMessage += value;
-      }
-    }
+        setTimeout(() => {
+            showStatusMessage("Normalizing the image...");
+            $nulledCanvas.prop({ 'width': width, 'height': height });
+            $messageCanvas.prop({ 'width': width, 'height': height });
 
-    var output = "";
-    for (var i = 0; i < binaryMessage.length; i += 8) {
-      var c = 0;
-      for (var j = 0; j < 8; j++) {
-        c <<= 1;
-        c |= parseInt(binaryMessage[i + j]);
-      }
+            var original = originalContext.getImageData(0, 0, width, height);
+            var pixel = original.data;
+            for (var i = 0, n = pixel.length; i < n; i += 4) {
+                for (var offset = 0; offset < 3; offset++) {
+                    if (pixel[i + offset] % 2 != 0) {
+                        pixel[i + offset]--;
+                    }
+                }
+            }
+            nulledContext.putImageData(original, 0, 0);
 
-      output += String.fromCharCode(c);
-    }
+            setTimeout(() => {
+                showStatusMessage("Converting your message to binary...");
+                var binaryMessage = "";
+                for (var i = 0; i < text.length; i++) {
+                    var binaryChar = text[i].charCodeAt(0).toString(2);
+                    while (binaryChar.length < 8) {
+                        binaryChar = "0" + binaryChar;
+                    }
+                    binaryMessage += binaryChar;
+                }
+                $('.binary textarea').text(binaryMessage);
 
-    $('.binary-decode textarea').text(output);
-    $('.binary-decode').fadeIn();
-  };
+                setTimeout(() => {
+                    showStatusMessage("Embedding the binary message into the image...");
+                    var message = nulledContext.getImageData(0, 0, width, height);
+                    pixel = message.data;
+                    var counter = 0;
+                    for (var i = 0, n = pixel.length; i < n; i += 4) {
+                        for (var offset = 0; offset < 3; offset++) {
+                            if (counter < binaryMessage.length) {
+                                pixel[i + offset] += parseInt(binaryMessage[counter]);
+                                counter++;
+                            } else {
+                                break;
+                            }
+                        }
+                    }
+                    messageContext.putImageData(message, 0, 0);
+
+                    $(".binary").fadeIn();
+                    $(".images .nulled").fadeIn();
+                    $(".images .message").fadeIn();
+
+                    showStatusMessage("Encoding complete.");
+                    setTimeout(hideStatusMessage, 3000);
+                }, 2000); // Adjust delay as needed
+            }, 2000); // Adjust delay as needed
+        }, 2000); // Adjust delay as needed
+    }, 500);
+}
+
+
+
+function decodeMessage() {
+    showStatusMessage("Starting decoding process...");
+
+    setTimeout(() => {
+        var $originalCanvas = $('.decode canvas');
+        var originalContext = $originalCanvas[0].getContext("2d");
+
+        var original = originalContext.getImageData(0, 0, $originalCanvas.width(), $originalCanvas.height());
+        var binaryMessage = "";
+        var pixel = original.data;
+
+        setTimeout(() => {
+            showStatusMessage("Extracting binary data from the image...");
+            for (var i = 0, n = pixel.length; i < n; i += 4) {
+                for (var offset = 0; offset < 3; offset++) {
+                    var value = 0;
+                    if (pixel[i + offset] % 2 != 0) {
+                        value = 1;
+                    }
+                    binaryMessage += value;
+                }
+            }
+
+            setTimeout(() => {
+                showStatusMessage("Converting binary data to text...");
+                var output = "";
+                for (var i = 0; i < binaryMessage.length; i += 8) {
+                    var c = 0;
+                    for (var j = 0; j < 8; j++) {
+                        c <<= 1;
+                        c |= parseInt(binaryMessage[i + j]);
+                    }
+                    output += String.fromCharCode(c);
+                }
+
+                $('.binary-decode textarea').text(output);
+                $('.binary-decode').fadeIn();
+
+                showStatusMessage("Decoding complete.");
+                setTimeout(hideStatusMessage, 3000);
+            }, 2000); // Adjust delay as needed
+        }, 2000); // Adjust delay as needed
+    }, 500);
+}
+
+
+function saveImage() {
+    const canvas = document.querySelector('.message canvas');
+    const image = canvas.toDataURL('image/png');
+    const link = document.createElement('a');
+    link.href = image;
+    link.download = 'encoded-image.png';
+    link.click();
+}

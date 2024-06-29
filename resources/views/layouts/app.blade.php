@@ -11,7 +11,7 @@
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+
 
     <!-- CSS -->
     <link href="{{ url('css/stego.css') }}" rel="stylesheet">
@@ -80,7 +80,12 @@
             @yield('content')
         </main>
     </div>
-    <script type="text/javascript" src="{{ asset('js/script.js') }}"></script>
+
+    <!-- Include jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="{{ asset('js/script.js') }}"></script>
+
 
 </body>
 </html>

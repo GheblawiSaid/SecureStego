@@ -1,41 +1,71 @@
+
 .header {
     background-color: #b0b0b0;
     padding: 20px;
     text-align: center;
+    margin-bottom: 20px;
 }
+
 .header h1 {
     margin: 0;
     font-size: 36px;
     font-weight: bold;
+    color: #333;
 }
+
+
 .user-section {
     background-color: #d3d3d3;
     padding: 20px;
     border-radius: 10px;
     margin-bottom: 20px;
 }
+
 .user-section label {
     font-weight: bold;
+    margin-bottom: 10px;
 }
+
 .user-section input {
     border-radius: 10px;
-    border: none;
-    padding: 5px 10px;
+    border: 1px solid #ccc;
+    padding: 8px 12px;
     width: 100%;
+    margin-bottom: 10px;
 }
+
 .user-section .btn {
     border-radius: 10px;
-    padding: 5px 20px;
+    padding: 8px 20px;
+    margin-top: 10px;
+    cursor: pointer;
 }
+
 .user-section .btn-delete {
     background-color: #dc3545;
     color: white;
 }
+
 .user-section .btn-save {
     background-color: #28a745;
     color: white;
 }
+
+
 .form-group-center {
     display: flex;
     justify-content: center;
+    margin-bottom: 20px;
+}
+
+
+canvas {
+    max-width: 100%;
+    height: auto;
+}
+
+.text-with-black-background {
+    background-color: rgb(116, 116, 116);
+    color: white;
+    padding: 5px 10px;
 }
