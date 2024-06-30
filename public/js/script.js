@@ -54,7 +54,6 @@ function previewImage(file, canvasSelector, callback) {
 }
 
 
-
 function encodeMessage() {
     showStatusMessage("Starting encoding process...");
 
@@ -82,8 +81,11 @@ function encodeMessage() {
             return;
         }
 
-        if ((combinedMessage.length * 8) > (width * height * 3)) {
-            $(".error").text("Text too long for chosen image....").fadeIn();
+        // Calculate the maximum text length that can be embedded
+        var maxTextLength = Math.floor((width * height * 3) / 8); // Each pixel can store 3 bits, 8 bits form a character
+
+        if (combinedMessage.length > maxTextLength) {
+            $(".error").text("Text too long for chosen image. Please select a larger image or reduce the text length.").fadeIn();
             hideStatusMessage();
             return;
         }
@@ -97,7 +99,7 @@ function encodeMessage() {
             var pixel = original.data;
             for (var i = 0, n = pixel.length; i < n; i += 4) {
                 for (var offset = 0; offset < 3; offset++) {
-                    if (pixel[i + offset] % 2 != 0) {
+                    if (pixel[i + offset] % 2 !== 0) {
                         pixel[i + offset]--;
                     }
                 }
@@ -144,7 +146,6 @@ function encodeMessage() {
         }, 2000); // Adjust delay as needed
     }, 500);
 }
-
 
 
 
@@ -207,8 +208,6 @@ function decodeMessage() {
         }, 2000); // Adjust delay as needed
     }, 500);
 }
-
-
 
 
 function saveImage() {
