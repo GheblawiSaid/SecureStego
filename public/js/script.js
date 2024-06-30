@@ -75,6 +75,13 @@ function encodeMessage() {
         var width = $originalCanvas[0].width;
         var height = $originalCanvas[0].height;
 
+        // Check if password length is more than 3
+        if (password.length > 3) {
+            $(".error").text("The password length entered is not applicable. Maximum length should be 3 characters.").fadeIn();
+            hideStatusMessage();
+            return;
+        }
+
         if ((combinedMessage.length * 8) > (width * height * 3)) {
             $(".error").text("Text too long for chosen image....").fadeIn();
             hideStatusMessage();
@@ -137,6 +144,7 @@ function encodeMessage() {
         }, 2000); // Adjust delay as needed
     }, 500);
 }
+
 
 
 
