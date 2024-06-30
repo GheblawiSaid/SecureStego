@@ -30,6 +30,7 @@
                         <input class="form-control" type="file" name="decodeFile" onchange="previewDecodeImage()">
                     </div>
                     <div class="form-group">
+                        <textarea id="decodePassword" class="form-control" type="password" placeholder="Enter password"></textarea>
                         <button class="decode btn btn-default pull-right" type="button" onclick="decodeMessage()">Decode</button>
                     </div>
                 </form>
@@ -59,6 +60,7 @@
                         <textarea id="waterMarkMessage" class="form-control message" rows="3" placeholder="Enter your message here"></textarea>
                     </div>
                     <div class="form-group">
+                        <textarea id="encodePassword" class="form-control" type="password" placeholder="Enter password"></textarea>
                         <button class="encode btn btn-default" type="button" onclick="encodeMessage()" style="float: left;">Encode</button>
                     </div>
                 </form>
