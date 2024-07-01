@@ -63,8 +63,15 @@ function encodeMessage() {
         $(".binary").hide();
 
         var text = $("textarea#waterMarkMessage").val();
-        var password = $("textarea#encodePassword").val(); // Retrieve password
-        var combinedMessage = password + text; // Combine password with message
+        var password = $("textarea#encodePassword").val();
+        var combinedMessage = password + text;
+
+
+        if (password.trim() === '') {
+            $(".error").text("Please enter a password to encode the message.").fadeIn();
+            hideStatusMessage();
+            return;
+        }
 
         var $originalCanvas = $('.original canvas');
         var $nulledCanvas = $('.nulled canvas');
@@ -75,7 +82,7 @@ function encodeMessage() {
         var width = $originalCanvas[0].width;
         var height = $originalCanvas[0].height;
 
-        // Check if password length is more than 3
+
         if (password.length > 3) {
             $(".error").text("The password length entered is not applicable. Maximum length should be 3 characters.").fadeIn();
             hideStatusMessage();
@@ -105,7 +112,7 @@ function encodeMessage() {
             nulledContext.putImageData(original, 0, 0);
 
             setTimeout(() => {
-                showStatusMessage("Converting your message to binary...");
+                showStatusMessage("Converting your watermark to binary...");
                 var binaryMessage = "";
                 for (var i = 0; i < combinedMessage.length; i++) {
                     var binaryChar = combinedMessage.charCodeAt(i).toString(2);
@@ -116,8 +123,11 @@ function encodeMessage() {
                 }
                 $('.binary textarea').text(binaryMessage);
 
+
+
+
                 setTimeout(() => {
-                    showStatusMessage("Embedding the binary message into the image...");
+                    showStatusMessage("Embedding the binary watermark into the image...");
                     var message = nulledContext.getImageData(0, 0, width, height);
                     pixel = message.data;
                     var counter = 0;
@@ -139,13 +149,32 @@ function encodeMessage() {
 
                     showStatusMessage("Encoding complete.");
                     setTimeout(hideStatusMessage, 3000);
-                }, 2000); // Adjust delay as needed
-            }, 2000); // Adjust delay as needed
-        }, 2000); // Adjust delay as needed
+                }, 2000);
+            }, 2000);
+        }, 2000);
     }, 500);
 }
 
 
+function randomizeBinaryWatermark(binaryMessage) {
+    var array = binaryMessage.split('');
+    var currentIndex = array.length, temporaryValue, randomIndex;
+
+
+    while (0 !== currentIndex) {
+
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+
+
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+    }
+
+
+    return array.join('');
+}
 
 
 
@@ -155,7 +184,14 @@ function decodeMessage() {
     setTimeout(() => {
         var $originalCanvas = $('.decode canvas');
         var originalContext = $originalCanvas[0].getContext("2d");
-        var userEnteredPassword = $("textarea#decodePassword").val(); // Retrieve password entered by user
+        var userEnteredPassword = $("textarea#decodePassword").val();
+
+
+        if (userEnteredPassword.trim() === '') {
+            showStatusMessage("Please enter the password to decode the message.");
+            setTimeout(hideStatusMessage, 3000);
+            return;
+        }
 
         var original = originalContext.getImageData(0, 0, $originalCanvas.width(), $originalCanvas.height());
         var binaryMessage = "";
@@ -185,52 +221,31 @@ function decodeMessage() {
                     output += String.fromCharCode(c);
                 }
 
-                // Extract the embedded password from the decoded output
-                var embeddedPasswordLength = 3; // Adjust this according to your password length
+
+                var embeddedPasswordLength = 3;
                 var embeddedPassword = output.substring(0, embeddedPasswordLength);
                 var messageWithoutPassword = output.substring(embeddedPasswordLength);
 
-                // Check if user-entered password matches the embedded password
+
                 if (userEnteredPassword !== embeddedPassword) {
                     showStatusMessage("Incorrect password. Please try again.");
                     setTimeout(hideStatusMessage, 3000);
                     return;
                 }
 
-                // Display the decoded message without the password
+
                 $('.binary-decode textarea').text(messageWithoutPassword);
                 $('.binary-decode').fadeIn();
 
                 showStatusMessage("Decoding complete.");
                 setTimeout(hideStatusMessage, 3000);
-            }, 2000); // Adjust delay as needed
-        }, 2000); // Adjust delay as needed
+            }, 2000);
+        }, 2000);
     }, 500);
 };
 
 
 
-
-// Function to randomly shuffle a binary message (inactive)
-function randomizeBinaryMessage(binaryMessage) {
-    var array = binaryMessage.split(''); // Convert binary message to array of characters
-    var currentIndex = array.length, temporaryValue, randomIndex;
-
-    // While there remain elements to shuffle
-    while (0 !== currentIndex) {
-        // Pick a remaining element
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-
-        // Swap it with the current element
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
-    }
-
-    // Convert array back to string
-    return array.join('');
-}
 
 
 function saveImage() {

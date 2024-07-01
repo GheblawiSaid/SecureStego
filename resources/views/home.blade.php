@@ -48,16 +48,16 @@
             <div class="col-md-6">
                 <div class="header">ENCODE</div>
                 <p class="alert alert-info">
-                    To watermark a watermark within an image, select the image you wish to use, input your text, and click the <strong>Encode</strong> button. <br/>
+                    To watermark an image, select the image you wish to use, input your text and password, then click the <strong>Encode</strong> button. <br/>
                     Save the final image, as it will contain your watermark. <br/>
-                    <Strong>Note:  </Strong>Keep in mind that the more text you want to hide, the larger the image needs to be. If the image you select is too small to contain your message, you will be notified.<br/><br/>
+                    <Strong>Note:  </Strong>Keep in mind that the more text you want to watermark, the larger the image needs to be. If the image you select is too small to contain your message, you will be notified.<br/><br/>
                 </p>
                 <form class="form">
                     <div class="form-group">
                         <input class="form-control" type="file" name="baseFile" onchange="previewEncodeImage()">
                     </div>
                     <div class="form-group">
-                        <textarea id="waterMarkMessage" class="form-control message" rows="3" placeholder="Enter your message here"></textarea>
+                        <textarea id="waterMarkMessage" class="form-control message" rows="3" placeholder="Enter your watermark here"></textarea>
                     </div>
                     <div class="form-group">
                         <textarea id="encodePassword" class="form-control" type="password" placeholder="Enter password only 3 Letters/Numbers"></textarea>
